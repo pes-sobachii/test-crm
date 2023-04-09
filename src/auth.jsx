@@ -11,6 +11,15 @@ const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, setUser)
+		db.collection('staff')
+			.get()
+			.then((querySnapshot) => {
+				const data = querySnapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}))
+				setStaff(data)
+			})
 		return () => unsubscribe()
 	}, [])
 
@@ -28,15 +37,6 @@ const AuthProvider = ({ children }) => {
 				})
 				.catch((error) => {
 					console.log('Error getting document:', error)
-				})
-			db.collection('staff')
-				.get()
-				.then((querySnapshot) => {
-					const data = querySnapshot.docs.map((doc) => ({
-						id: doc.id,
-						...doc.data(),
-					}))
-					setStaff(data)
 				})
 			db.collection('trips')
 				.get()
