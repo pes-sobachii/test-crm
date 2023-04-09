@@ -11,6 +11,7 @@ export const logInByGoogle = async (e) => {
 		if (!isUser) {
 			await auth.signOut()
 			throw new Error('User is not registered')
+			alert('User is not registered')
 		}
 	} catch (e) {
 		console.log(e.code, e.message)
